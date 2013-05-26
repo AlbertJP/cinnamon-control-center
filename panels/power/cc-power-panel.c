@@ -894,10 +894,10 @@ disable_unavailable_combo_items (CcPowerPanel *self,
                           ACTION_MODEL_VALUE, &value_tmp,
                           -1);
       switch (value_tmp) {
-      case GSD_POWER_ACTION_SUSPEND:
+      case CSD_POWER_ACTION_SUSPEND:
         enabled = up_client_get_can_suspend (self->priv->up_client);
         break;
-      case GSD_POWER_ACTION_HIBERNATE:
+      case CSD_POWER_ACTION_HIBERNATE:
         enabled = up_client_get_can_hibernate (self->priv->up_client);
         break;
       default:
