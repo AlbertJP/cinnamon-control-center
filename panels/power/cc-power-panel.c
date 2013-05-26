@@ -1021,9 +1021,9 @@ cc_power_panel_init (CcPowerPanel *self)
   g_dbus_proxy_new_for_bus (G_BUS_TYPE_SESSION,
                             G_DBUS_PROXY_FLAGS_NONE,
                             NULL,
-                            "org.gnome.SettingsDaemon",
-                            "/org/gnome/SettingsDaemon/Power",
-                            "org.gnome.SettingsDaemon.Power",
+                            "org.cinnamon.SettingsDaemon",
+                            "/org/cinnamon/SettingsDaemon/Power",
+                            "org.cinnamon.SettingsDaemon.Power",
                             self->priv->cancellable,
                             got_power_proxy_cb,
                             self);

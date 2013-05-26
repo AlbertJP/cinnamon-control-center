@@ -2339,9 +2339,9 @@ begin_version2_apply_configuration (CcDisplayPanel *self, GdkWindow *parent_wind
   self->priv->proxy = g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                      G_DBUS_PROXY_FLAGS_NONE,
                                                      NULL,
-                                                     "org.gnome.SettingsDaemon",
-                                                     "/org/gnome/SettingsDaemon/XRANDR",
-                                                     "org.gnome.SettingsDaemon.XRANDR_2",
+                                                     "org.cinnamon.SettingsDaemon",
+                                                     "/org/cinnamon/SettingsDaemon/XRANDR",
+                                                     "org.cinnamon.SettingsDaemon.XRANDR_2",
                                                      NULL,
                                                      &error);
   if (self->priv->proxy == NULL) {
