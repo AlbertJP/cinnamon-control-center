@@ -24,7 +24,7 @@
 
 #include <libupower-glib/upower.h>
 #include <glib/gi18n-lib.h>
-#include <gnome-settings-daemon/gsd-enums.h>
+#include <cinnamon-settings-daemon/csd-enums.h>
 
 #include "cc-power-panel.h"
 
@@ -38,7 +38,7 @@ CC_PANEL_REGISTER (CcPowerPanel, cc_power_panel)
 struct _CcPowerPanelPrivate
 {
   GSettings     *lock_settings;
-  GSettings     *gsd_settings;
+  GSettings     *csd_settings;
   GSettings     *power_settings;
   GCancellable  *cancellable;
   GtkBuilder    *builder;
@@ -85,10 +85,10 @@ cc_power_panel_dispose (GObject *object)
 {
   CcPowerPanelPrivate *priv = CC_POWER_PANEL (object)->priv;
 
-  if (priv->gsd_settings)
+  if (priv->csd_settings)
     {
-      g_object_unref (priv->gsd_settings);
-      priv->gsd_settings = NULL;
+      g_object_unref (priv->csd_settings);
+      priv->csd_settings = NULL;
     }
   if (priv->power_settings)
     {
@@ -835,7 +835,7 @@ combo_time_changed_cb (GtkWidget *widget, CcPowerPanel *self)
                       -1);
 
   /* set both keys */
-  g_settings_set_int (self->priv->gsd_settings, key, value);
+  g_settings_set_int (self->priv->csd_settings, key, value);
 }
 
 static void
@@ -859,7 +859,7 @@ combo_enum_changed_cb (GtkWidget *widget, CcPowerPanel *self)
                       -1);
 
   /* set both battery and ac keys */
-  g_settings_set_enum (self->priv->gsd_settings, key, value);
+  g_settings_set_enum (self->priv->csd_settings, key, value);
 }
 
 static void
@@ -1033,14 +1033,14 @@ cc_power_panel_init (CcPowerPanel *self)
   self->priv->up_client = up_client_new ();
   set_ac_battery_ui_mode (self);
 
-  self->priv->gsd_settings = g_settings_new ("org.gnome.settings-daemon.plugins.power");
-  g_signal_connect (self->priv->gsd_settings,
+  self->priv->csd_settings = g_settings_new ("org.cinnamon.settings-daemon.plugins.power");
+  g_signal_connect (self->priv->csd_settings,
                     "changed",
                     G_CALLBACK (on_lock_settings_changed),
                     self);
 
   /* auto-sleep time */
-  value = g_settings_get_int (self->priv->gsd_settings, "sleep-inactive-ac-timeout");
+  value = g_settings_get_int (self->priv->csd_settings, "sleep-inactive-ac-timeout");
   widget = GTK_WIDGET (gtk_builder_get_object (self->priv->builder,
                                                "combobox_sleep_ac"));
   set_value_for_combo (GTK_COMBO_BOX (widget), value);
@@ -1048,7 +1048,7 @@ cc_power_panel_init (CcPowerPanel *self)
   g_signal_connect (widget, "changed",
                     G_CALLBACK (combo_time_changed_cb),
                     self);
-  value = g_settings_get_int (self->priv->gsd_settings, "sleep-inactive-battery-timeout");
+  value = g_settings_get_int (self->priv->csd_settings, "sleep-inactive-battery-timeout");
   widget = GTK_WIDGET (gtk_builder_get_object (self->priv->builder,
                                                "combobox_sleep_battery"));
   set_value_for_combo (GTK_COMBO_BOX (widget), value);
@@ -1058,7 +1058,7 @@ cc_power_panel_init (CcPowerPanel *self)
                     self);
 
   /* actions */
-  value = g_settings_get_enum (self->priv->gsd_settings, "critical-battery-action");
+  value = g_settings_get_enum (self->priv->csd_settings, "critical-battery-action");
   widget = GTK_WIDGET (gtk_builder_get_object (self->priv->builder,
                                                "combobox_critical"));
   disable_unavailable_combo_items (self, GTK_COMBO_BOX (widget));
@@ -1068,7 +1068,7 @@ cc_power_panel_init (CcPowerPanel *self)
                     G_CALLBACK (combo_enum_changed_cb),
                     self);
 
-  value = g_settings_get_enum (self->priv->gsd_settings, "lid-close-ac-action");
+  value = g_settings_get_enum (self->priv->csd_settings, "lid-close-ac-action");
   widget = GTK_WIDGET (gtk_builder_get_object (self->priv->builder,
                                                "combobox_lid_ac"));
   disable_unavailable_combo_items (self, GTK_COMBO_BOX (widget));
@@ -1078,7 +1078,7 @@ cc_power_panel_init (CcPowerPanel *self)
                     G_CALLBACK (combo_enum_changed_cb),
                     self);
 
-  value = g_settings_get_enum (self->priv->gsd_settings, "lid-close-battery-action");
+  value = g_settings_get_enum (self->priv->csd_settings, "lid-close-battery-action");
   widget = GTK_WIDGET (gtk_builder_get_object (self->priv->builder,
                                                "combobox_lid_battery"));
   disable_unavailable_combo_items (self, GTK_COMBO_BOX (widget));

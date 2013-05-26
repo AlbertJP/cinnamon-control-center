@@ -1133,7 +1133,7 @@ lay_out_outputs_horizontally (CcDisplayPanel *self)
 
 }
 
-/* FIXME: this function is copied from gnome-settings-daemon/plugins/xrandr/gsd-xrandr-manager.c.
+/* FIXME: this function is copied from gnome-settings-daemon/plugins/xrandr/csd-xrandr-manager.c.
  * Do we need to put this function in gnome-desktop for public use?
  */
 static gboolean
